@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### `dry_run` keeps the color of the text it returns
+
+`Text::Formatted::Box#render(dry_run: true)` no longer strips `:color` from
+the fragments it returns as excess text. It skips setting the colors instead,
+so the document's graphics state stays untouched.
+
+(Clément Joubert, [#1355](https://github.com/prawnpdf/prawn/issues/1355))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding

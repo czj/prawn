@@ -151,13 +151,14 @@ module Prawn
         end
 
         def format_and_draw_fragment(fragment, accumulated_width, line_width, word_spacing)
-          @arranger.apply_color_and_font_settings(fragment) do
-            draw_fragment(
-              fragment,
-              accumulated_width,
-              line_width,
-              word_spacing,
-            )
+          if @inked
+            @arranger.apply_color_and_font_settings(fragment) do
+              draw_fragment(fragment, accumulated_width, line_width, word_spacing)
+            end
+          else
+            @arranger.apply_font_settings(fragment) do
+              draw_fragment(fragment, accumulated_width, line_width, word_spacing)
+            end
           end
         end
       end

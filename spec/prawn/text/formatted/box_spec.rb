@@ -744,6 +744,19 @@ describe Prawn::Text::Formatted::Box do
       expect(state_after.stroke_color_space_count)
         .to eq(stroke_color_space_count)
     end
+
+    it 'keeps the color of the text that would not be printed' do
+      array = [
+        { text: 'Foo ' },
+        { text: 'bar baz', color: 'ff0000' },
+      ]
+      text_box = described_class.new(array, document: pdf, width: 30, height: 20)
+
+      excess_text = text_box.render(dry_run: true)
+
+      expect(excess_text).to_not be_empty
+      expect(excess_text.map { |fragment| fragment[:color] }.uniq).to eq(['ff0000'])
+    end
   end
 
   describe 'Text::Formatted::Box#render with fragment level :character_spacing option' do
