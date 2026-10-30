@@ -33,8 +33,8 @@ module Prawn
     #   @return [void]
     def column_box(*args, &block)
       init_column_box(block) do |parent_box|
-        map_to_absolute!(args[0])
-        @bounding_box = ColumnBox.new(self, parent_box, *args)
+        point, *options = args
+        @bounding_box = ColumnBox.new(self, parent_box, map_to_absolute(point), *options)
       end
     end
 

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### `curve_to` and `column_box` leave their arguments untouched
+
+`curve_to` no longer appends the destination to the `:bounds` array it is given,
+and `column_box` no longer rewrites its point to absolute coordinates.
+
+(Clément Joubert, [#1401](https://github.com/prawnpdf/prawn/issues/1401))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding

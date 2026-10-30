@@ -110,6 +110,16 @@ describe Prawn::Graphics do
       curve = PDF::Inspector::Graphics::Curve.analyze(pdf.render)
       expect(curve.coords).to eq([100.0, 100.0, 20.0, 90.0, 90.0, 75.0, 50.0, 50.0])
     end
+
+    it 'leaves the bounds array untouched' do
+      bounds = [[20, 90], [90, 70]]
+      pdf.move_to([50, 50])
+      pdf.curve_to([100, 100], bounds: bounds)
+      pdf.curve_to([150, 150], bounds: bounds)
+      curve = PDF::Inspector::Graphics::Curve.analyze(pdf.render)
+      expect(bounds).to eq([[20, 90], [90, 70]])
+      expect(curve.coords.last(6)).to eq([20.0, 90.0, 90.0, 70.0, 150.0, 150.0])
+    end
   end
 
   describe 'When drawing a rounded rectangle' do
