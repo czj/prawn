@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Read the fractional part of TTF italic angles
+
+The italic angle written to the font descriptor kept only the low byte of the
+fraction and read it as decimal digits: a font slanted by -9.7° was declared
+at -10.205°. It is now read as the signed 16.16 fixed-point number it is.
+
+(Clément Joubert, [#854](https://github.com/prawnpdf/prawn/issues/854))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding

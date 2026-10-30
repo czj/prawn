@@ -377,6 +377,27 @@ describe Prawn::Font do
   describe 'TTF fonts' do
     let(:font) { pdf.find_font("#{Prawn::DATADIR}/fonts/DejaVuSans.ttf") }
 
+    describe '#italic_angle' do
+      it 'is zero for an upright font' do
+        expect(font.italic_angle).to eq(0)
+      end
+
+      it 'reads the angle of a slanted font' do
+        italic_font = pdf.find_font(
+          "#{Prawn::DATADIR}/fonts/Panic+Sans.dfont",
+          font: 'PanicSans-Italic',
+        )
+
+        expect(italic_font.italic_angle).to eq(-11)
+      end
+
+      it 'reads the fractional part of the angle' do
+        allow(font.ttf.postscript).to receive(:italic_angle).and_return(0xFFF64CCD)
+
+        expect(font.italic_angle).to be_within(0.001).of(-9.7)
+      end
+    end
+
     it 'calculates string width taking into account accented characters' do
       expect(font.compute_width_of('é', size: 12)).to eq font.compute_width_of('e', size: 12)
     end

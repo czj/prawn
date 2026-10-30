@@ -255,11 +255,10 @@ module Prawn
         return @italic_angle if @italic_angle
 
         if @ttf.postscript.exists?
+          # Signed 16.16 fixed-point number, read by TTFunk as unsigned.
           raw = @ttf.postscript.italic_angle
-          hi = raw >> 16
-          low = raw & 0xFF
-          hi = -((hi ^ 0xFFFF) + 1) if hi & 0x8000 != 0
-          @italic_angle = Float("#{hi}.#{low}")
+          raw -= 0x1_0000_0000 if raw & 0x8000_0000 != 0
+          @italic_angle = raw.fdiv(0x1_0000)
         else
           @italic_angle = 0
         end
