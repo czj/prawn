@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### `number_pages` leaves the cursor where it was
+
+`number_pages` visited each numbered page and stayed on the last one it
+visited, at the top of the page. It now returns to the page and position it
+was called from, like `float`.
+
+(Clément Joubert, [#1223](https://github.com/prawnpdf/prawn/issues/1223))
+
 ## PrawnPDF 2.5.0
 
 ### Full font embedding

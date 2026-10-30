@@ -667,30 +667,32 @@ module Prawn
 
       start_count = false
       pseudopage = 0
-      (1..page_count).each do |p|
-        unless start_count
-          pseudopage =
-            case start_count_at
-            when String
-              Integer(start_count_at, 10)
-            when (1..)
-              Integer(start_count_at)
-            else
-              1
-            end
+      float do
+        (1..page_count).each do |p|
+          unless start_count
+            pseudopage =
+              case start_count_at
+              when String
+                Integer(start_count_at, 10)
+              when (1..)
+                Integer(start_count_at)
+              else
+                1
+              end
+          end
+          if page_match?(page_filter, p)
+            go_to_page(p)
+            # have to use fill_color here otherwise text reverts back to default
+            # fill color
+            fill_color(txtcolor) unless txtcolor.nil?
+            total_pages = page_count if total_pages.nil?
+            str = string.gsub('<page>', pseudopage.to_s)
+              .gsub('<total>', total_pages.to_s)
+            text_box(str, opts)
+            start_count = true # increment page count as soon as first match found
+          end
+          pseudopage += 1 if start_count
         end
-        if page_match?(page_filter, p)
-          go_to_page(p)
-          # have to use fill_color here otherwise text reverts back to default
-          # fill color
-          fill_color(txtcolor) unless txtcolor.nil?
-          total_pages = page_count if total_pages.nil?
-          str = string.gsub('<page>', pseudopage.to_s)
-            .gsub('<total>', total_pages.to_s)
-          text_box(str, opts)
-          start_count = true # increment page count as soon as first match found
-        end
-        pseudopage += 1 if start_count
       end
     end
 

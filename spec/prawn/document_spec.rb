@@ -644,6 +644,17 @@ describe Prawn::Document do
       end
     end
 
+    it 'leaves the cursor where it was' do
+      3.times { pdf.start_new_page }
+      pdf.move_down(100)
+      cursor_before = pdf.cursor
+
+      pdf.number_pages('<page>', page_filter: [1, 2])
+
+      expect(pdf.page_number).to eq(3)
+      expect(pdf.cursor).to eq(cursor_before)
+    end
+
     context 'with total_pages option' do
       it 'allows the total pages count to be overridden' do
         2.times { pdf.start_new_page }
