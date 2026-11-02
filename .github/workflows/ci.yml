@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "gem 'prawn-dev', github: 'prawnpdf/prawn-dev'" >> Gemfile.local
           echo "gem 'pdf-core', github: 'prawnpdf/pdf-core'" >> Gemfile.local
-          echo "gem 'ttfunk', github: 'prawnpdf/ttfunk'" >> Gemfile.local
+          echo "gem 'ttfunk', github: 'czj/ttfunk', branch: 'kern-format0-lazy-pairs'" >> Gemfile.local
           echo "gem 'prawn-manual_builder', github: 'prawnpdf/prawn-manual_builder'" >> Gemfile.local
       - name: Gems cache
         uses: actions/cache@v4
