@@ -372,7 +372,7 @@ module Prawn
         string.each_codepoint do |r|
           if a.empty?
             a << [r]
-          elsif (kern = kern_pairs_table[[cmap[a.last.last], cmap[r]]])
+          elsif has_kerning_data? && (kern = kerning_subtable.kerning_value(cmap[a.last.last], cmap[r]))
             kern *= scale_factor
             a << -kern << [r]
           else
@@ -383,13 +383,8 @@ module Prawn
         a
       end
 
-      def kern_pairs_table
-        @kern_pairs_table ||=
-          if has_kerning_data?
-            @ttf.kerning.tables.first.pairs
-          else
-            {}
-          end
+      def kerning_subtable
+        @kerning_subtable ||= @ttf.kerning.tables.first
       end
 
       def hmtx
